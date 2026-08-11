@@ -10,8 +10,11 @@ import { normalizeState } from '../state.js'
 //      short lived, and WordPress mints a fresh one on every lesson page load,
 //      so an expired token is a normal condition, not an error state.
 
+// Where the WordPress plugin lives. This is the WordPress host, which is not the
+// same as the host the app itself is served from. Override per environment with
+// VITE_WP_API_BASE (set it in Vercel project settings) rather than editing here.
 const API_BASE =
-  import.meta.env.VITE_WP_API_BASE || 'https://sellershipuniversity.com/wp-json/visionmap/v1'
+  import.meta.env.VITE_WP_API_BASE || 'https://university.benward.com/wp-json/visionmap/v1'
 
 const TOKEN_KEY = 'vision-map-wp-token'
 const PENDING_KEY = 'vision-map-pending-sync'

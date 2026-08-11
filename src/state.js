@@ -151,7 +151,17 @@ export function loadState() {
 }
 
 export function saveState(state) {
-  localStorage.setItem(storageKey, JSON.stringify(state))
+  // Writing can throw rather than fail quietly: Safari blocks storage for a
+  // cross site iframe, private mode can refuse writes, and a large vision board
+  // can hit the quota. An unhandled throw here would take the whole app down
+  // mid keystroke, so failing to persist has to stay non fatal. When the app is
+  // embedded in WordPress the server copy is the real backstop anyway.
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(state))
+    return true
+  } catch {
+    return false
+  }
 }
 
 export function normalizeState(saved) {
